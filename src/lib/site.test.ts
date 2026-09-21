@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { isLoopbackHost, publicOrigin, SITE_URL } from "./site";
+import { DEFAULT_SITE_URL, isLoopbackHost, publicOrigin, resolveSiteUrl, SITE_URL } from "./site";
+
+test("empty or invalid NEXT_PUBLIC_SITE_URL falls back to the live origin", () => {
+  assert.equal(resolveSiteUrl(undefined), DEFAULT_SITE_URL);
+  assert.equal(resolveSiteUrl(""), DEFAULT_SITE_URL);
+  assert.equal(resolveSiteUrl("   "), DEFAULT_SITE_URL);
+  assert.equal(resolveSiteUrl("not a url"), DEFAULT_SITE_URL);
+  assert.equal(resolveSiteUrl("https://example.com/"), "https://example.com");
+});
 
 test("loopback hosts are not public", () => {
   assert.equal(isLoopbackHost("localhost:10000"), true);

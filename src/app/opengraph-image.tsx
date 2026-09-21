@@ -156,7 +156,6 @@ export default function OpenGraphImage() {
             position: "relative",
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=960&q=70"
             alt=""

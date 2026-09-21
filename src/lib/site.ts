@@ -1,7 +1,18 @@
 /** Public origin for the live demo. Override with NEXT_PUBLIC_SITE_URL. */
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://kiungo.jabali.studio"
-).replace(/\/$/, "");
+export const DEFAULT_SITE_URL = "https://kiungo.jabali.studio";
+
+export function resolveSiteUrl(raw: string | undefined): string {
+  const value = raw?.trim();
+  if (!value) return DEFAULT_SITE_URL;
+  try {
+    const href = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+    return new URL(href).origin;
+  } catch {
+    return DEFAULT_SITE_URL;
+  }
+}
+
+export const SITE_URL = resolveSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
 
 export function isLoopbackHost(host: string): boolean {
   const hostname = host
